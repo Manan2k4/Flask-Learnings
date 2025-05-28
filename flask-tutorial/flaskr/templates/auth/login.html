@@ -4,6 +4,10 @@
     <h1>{% block title %}Log In{% endblock %}</h1>
 {% endblock %}
 
+{% for message in get_flashed_messages() %}
+  <div class="flash">{{ message }}</div>
+{% endfor %}
+
 {% block content %}
     <form method="post">
         <label for="username">Username</label>
