@@ -5,23 +5,13 @@ def test_index(client, auth):
     response = client.get('/')
     assert b"Log In" in response.data
     assert b"Register" in response.data
+
     auth.login()
     response = client.get('/')
-    
-    # Temporary debug - print the actual HTML to see what's there
-    print("\n" + "="*50)
-    print("ACTUAL HTML CONTENT:")
-    print(response.data.decode())
-    print("="*50 + "\n")
-    
-    # Try different variations
     html_content = response.data.decode().lower()
-    if 'logout' in html_content:
-        print("Found 'logout' in content")
-    if 'log out' in html_content:
-        print("Found 'log out' in content")
-    
-    assert b'log out' in response.data  # This will still fail, but we'll see the content
+
+    assert 'log out' in html_content
+  # This will still fail, but we'll see the content
 
 @pytest.mark.parametrize('path', (
     '/create',
