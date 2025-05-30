@@ -6,7 +6,7 @@ from app.extensions import db
 from app.models import User
 from urllib.parse import urlsplit
 from datetime import datetime, timezone
-from app.auth.forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm
 
 bp = Blueprint('auth', __name__)
 
@@ -31,11 +31,11 @@ def login():
 @bp.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('mian.index'))
+    return redirect(url_for('main.index'))
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     form = RegistrationForm()
     if form.validate_on_submit():
