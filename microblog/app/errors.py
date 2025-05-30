@@ -1,5 +1,6 @@
 from flask import render_template
-from app import app, db
+from app import db
+from microblog import app
 
 @app.errorhandler(404)
 def not_found_error(error):

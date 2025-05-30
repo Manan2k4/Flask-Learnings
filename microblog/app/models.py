@@ -9,7 +9,7 @@ from app.extensions import login
 import hashlib
 from time import time
 import jwt
-from app import app
+from microblog import app
 
 if TYPE_CHECKING:
     from sqlalchemy.orm import DynamicMapped
