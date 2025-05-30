@@ -1,7 +1,8 @@
-from hashlib import md5
+import hashlib
 from datetime import datetime, timezone
 from typing import Optional
 import sqlalchemy as sa
+from sqlalchemy import union_all
 import sqlalchemy.orm as so
 from app import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -23,11 +24,9 @@ followers = sa.Table(
 
 class User(UserMixin, db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,
-                                                    unique=True)
-    email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True,
-                                             unique=True)
-    password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
+    username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True, unique=True)
+    email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True, unique=True)
+    password_hash: so.Mapped[str] = so.mapped_column(sa.String(256))
 
     posts: so.WriteOnlyMapped['Post'] = so.relationship(
         back_populates='author')
@@ -55,8 +54,8 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
     
     def avatar(self, size):
-        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
-        return f'https://www.gravatar.com/avatar/%7Bdigest%7D?d=identicon&s={size}'
+        digest = hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
+        return f'https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}'
     
     def follow(self, user):
         if not self.is_following(user):
@@ -81,19 +80,16 @@ class User(UserMixin, db.Model):
         return db.session.scalar(query)
     
     def following_posts(self):
-        Author = so.aliased(User)
-        Follower = so.aliased(User)
-        return (
+        followed = (
             sa.select(Post)
-            .join(Poat.author.of_type(Author))
-            .join(Author.followers.of_type(Follower))
-            .where(sa.or_(
-                Follower.id == self.id,
-                Author.id == self.id,
-            ))
-            .group_by(Post)
-            .order_by(Post.timestamp.desc())
+            .join(followers, (followers.c.followed_id == Post.user_id))
+            .where(followers.c.follower_id == self.id)
         )
+        own = sa.select(Post).where(Post.user_id == self.id)
+        return followed.union_all(own).order_by(Post.timestamp.desc())
+
+
+
     
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
