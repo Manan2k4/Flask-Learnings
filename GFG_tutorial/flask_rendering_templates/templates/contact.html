@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+{% block body %}
+    {% if person == "admin" %}
+        <p>Admin Section</p>
+    {% elif person =='maintainer' %}
+        <p>App Source for maintainer</p>
+    {% else %}
+        <p>Hello, {{ person }}</p>
+    {% endif %}
+{% endblock %}
