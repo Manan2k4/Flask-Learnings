@@ -1,0 +1,18 @@
+Simply execute one of the following
+commands in the terminal:
+
+    flask --app app_name run
+    python app_name
+
+Using flask --app <app_name> run
+
+Using the python app_name.py
+
+Run the app in the debugger
+With debug mode on, Flask automatically detects errors and shows
+a detailed traceback, helping developers quickly find
+and fix issues. We will use the below command to run
+the flask application with debug mode as on.
+
+if __name__ == '__main__':  
+  app.run(debug = True)
