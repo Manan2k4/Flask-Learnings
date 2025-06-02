@@ -1,0 +1,15 @@
+<!-- include base.html -->
+{% extends "base.html" %}
+
+{% block content %}
+Hello {{ pl_name }}! Your email is: {{ pl_email }}
+<br>
+Even numbers:
+{% for i in numbers %}
+    {% if numbers %}
+        {{ i }}
+    {% endif %}
+{% endfor %}
+
+<!-- end the block -->
+{% endblock %}
