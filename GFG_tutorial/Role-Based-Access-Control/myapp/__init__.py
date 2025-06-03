@@ -4,7 +4,7 @@ from myapp.db import db
 from myapp.models import User, Role
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder='myapp/templates')
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///g4g.sqlite3'
     app.config['SECRET_KEY'] = 'MY_SECRET'
     app.config['SECURITY_PASSWORD_SALT'] = 'some_salt'
