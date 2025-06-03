@@ -3,6 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>User Account</title>
+
 </head>
 <style>
 .gfg{
@@ -18,10 +19,11 @@
     </div>
     <br>
     <div class="row">    
-        Logged in : <strong class="gfg">{{ session['name'] }}</strong> | <a href="{{ url_for('logout') }}">Logout</a>
+        Logged in : <strong class="gfg">  {{ session['name'] }} </strong>| <a href="{{ url_for('logout') }}"> Logout</a>
     </div>
     <br><br>
     <div class="row">
+        
         <h2>Welcome to the User profile page...</h2> 
     </div>        
 </div>

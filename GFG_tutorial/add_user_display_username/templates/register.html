@@ -38,20 +38,24 @@
     <h2 class="hi"> GFG user Regstn.</h2>
     <h4 class="y">Note: Fill following details !</h4>
     <form action="{{ url_for('register') }}" method="post">
-        {% if message is defined and %}
-            <div class="alert alert-warning"><strong>{{ message }} ????</div>
+        {% if message %}
+            <div class="alert alert-warning"><strong>{{ message }}</strong></div>
         {% endif %}
         <br>
         <div class="form-group">
             <label class="gfg">Name: </label>
-            <input type="text" class="ok" class="form-control" id="name" name="name" placeholder="Enter name" name="name">
+            <input type="text" class="ok form-control" id="name" name="name" placeholder="Enter name">
+        </div>
+        <div class="form-group">
+            <label class="gf">Email:</label>
+            <input type="email" class="ok form-control" id="email" name="email" placeholder="Enter email">
         </div>
         <div class="form-group">
             <label class="gf">Password:</label>
-            <input class="ok" type="password" class="form-control" id="password" name="password" placeholder="Enter password" name="pswd">
-            </div>    
-            <button class="btn" type="submit" class="btn btn-primary">Register</button>
-            <p class="bottom">Already have an account?  <a class="bottom" href="{{url_for('login')}}"> Login here</a></p>
+            <input type="password" class="ok form-control" id="password" name="password" placeholder="Enter password">
+        </div>    
+        <button class="btn" type="submit">Register</button>
+        <p class="bottom">Already have an account?  <a class="bottom" href="{{ url_for('login') }}"> Login here</a></p>
     </form>
 </div>
 </body>
