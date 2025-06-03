@@ -1,19 +1,21 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_user, logout_user
-from .models import User, Role, db
+from werkzeug.security import generate_password_hash, check_password_hash
+from myapp.models import User, Role, db
 
 bp = Blueprint('auth', __name__)
 
 @bp.route('/signup', methods=['GET', 'POST'])
 def signup():
     msg = ''
-    if request.method == "post":
+    if request.method == "POST":
         user = User.query.filter_by(email=request.form['email']).first()
         if user:
-            msg = 'user already exists'
+            msg = 'User already exists'
             return render_template('signup.html', msg=msg)
         
-        user = User(email=request.form['email'], password=request.form['password'])
+        hashed_password = generate_password_hash(request.form['password'])
+        user = User(email=request.form['email'], password=hashed_password)
         role = Role.query.filter_by(id=int(request.form['Options'])).first()
         if role:
             user.roles.append(role)
@@ -30,9 +32,9 @@ def signup():
 @bp.route('/signin', methods=['GET', 'POST'])
 def signin():
     msg = ''
-    if request.method == 'post':
+    if request.method == 'POST':
         user = User.query.filter_by(email=request.form['email']).first()
-        if user and user.password == request.form['password']:
+        if user and user.verify_password(request.form['password']):
             login_user(user)
             return redirect(url_for('main.index'))
         msg = 'Wrong password' if user else "User doesn't exist"

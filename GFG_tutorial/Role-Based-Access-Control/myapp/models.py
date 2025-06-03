@@ -1,5 +1,6 @@
 from myapp.db import db
 from flask_security.core import UserMixin, RoleMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 
 roles_users = db.Table('roles_users',
@@ -15,6 +16,9 @@ class User(db.Model, UserMixin):
     active = db.Column(db.Boolean(), default=True)
     fs_uniquifier = db.Column(db.String(255), unique=True, nullable=False, default=lambda: uuid.uuid4().hex)
     roles = db.relationship('Role', secondary=roles_users, backref='roled')
+
+    def verify_password(self, password):
+        return check_password_hash(self.password, password)
 
 class Role(db.Model, RoleMixin):
     __tablename__ = 'role'

@@ -1,5 +1,20 @@
-<h3>My Details: </h3><br>
-<b>My email</b>: {{ current_user.email }}
-| <b>Role</b>: {% for role in current_user.roles %}
-  {{ role.name }}
-{% endfor %}<br><br>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Details</title>
+    <style>
+        body { margin: 20px; }
+    </style>
+</head>
+<body>
+    <h3>My Details</h3>
+    <p>
+        <b>Email</b>: {{ current_user.email }}<br>
+        <b>Role(s)</b>: 
+        {% for role in current_user.roles %}
+            {{ role.name }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+    <a href="/">Back to Home</a>
+</body>
+</html>

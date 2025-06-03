@@ -1,8 +1,19 @@
-<h3>Staff</h3>
-<ol>
-    {% for staf in staff %}
-      <li>
-        {{ staf.email }}
-      </li>
-    {% endfor %}
-</ol>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff</title>
+    <style>
+        body { margin: 20px; }
+        ol { margin-left: 20px; }
+    </style>
+</head>
+<body>
+    <h3>Staff</h3>
+    <ol>
+        {% for staff in staff %}
+            <li>{{ staff.email }}</li>
+        {% endfor %}
+    </ol>
+    <a href="/">Back to Home</a>
+</body>
+</html>

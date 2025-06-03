@@ -1,20 +1,35 @@
-<h2>Sign in</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign In</title>
+    <style>
+        .error { color: red; }
+        form { margin: 20px; }
+    </style>
+</head>
+<body>
+    <h2>Sign in</h2>
 
-{% if current_user.is_authenticated %}
-  You are already logged in.
-{% else %}
-{{ msg }}<br>
+    {% if current_user.is_authenticated %}
+        <p>You are already logged in.</p>
+        <a href="/">Go to Home</a>
+    {% else %}
+        {% if msg %}
+            <p class="error">{{ msg }}</p>
+        {% endif %}
 
-<form action="#" method="post" id="signin-form">
-    <label>Email Address: </label>
-    <input type="password" name="password" required/><br><br>
+        <form action="{{ url_for('auth.signin') }}" method="post">
+            <label>Email Address: </label>
+            <input type="email" name="email" required/><br><br>
 
-    <label>Password: </label>
-    <input type="password" name="password" required/><br><br>
+            <label>Password: </label>
+            <input type="password" name="password" required/><br><br>
 
-    <input class="btn btn-primary" type="submit" value="Submit"><br><br>
+            <input class="btn btn-primary" type="submit" value="Sign In"><br><br>
 
-    <span>Don't have an account?</span>
-    <a href="/signup">Sign Up</a>
-</form>
-{% endif %}
+            <span>Don't have an account?</span>
+            <a href="/signup">Sign Up</a>
+        </form>
+    {% endif %}
+</body>
+</html>
