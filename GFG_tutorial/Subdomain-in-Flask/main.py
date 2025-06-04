@@ -3,7 +3,7 @@ from flask import Flask
 app = Flask(__name__)
 
 # to run manan.app:5000, change "localhost" hosts file
-# at 
+# at "C:\Windows\System32\drivers\etc\hosts"
 
 
 @app.route('/')
